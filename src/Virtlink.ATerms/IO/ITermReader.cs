@@ -21,10 +21,11 @@ namespace Virtlink.ATerms.IO
 		ITerm Read(Stream input);
 	}
 
-	/// <summary>
-	/// Extensions to the <see cref="ITermReader"/> interface.
-	/// </summary>
-	public static class ITermReaderExtensions
+#if NET45 || NETSTANDARD1_3
+    /// <summary>
+    /// Extensions to the <see cref="ITermReader"/> interface.
+    /// </summary>
+    public static class ITermReaderExtensions
 	{
 		/// <summary>
 		/// Reads the term from a file.
@@ -47,4 +48,5 @@ namespace Virtlink.ATerms.IO
 			}
 		}
 	}
+#endif
 }
