@@ -54,20 +54,9 @@ namespace Virtlink.ATerms.IO
 		}
 
 		/// <inheritdoc />
-		ITermReader ITermFormat.CreateReader(TermFactory termFactory)
-        {
-            #region Contract
-            if (termFactory == null)
-                throw new ArgumentNullException(nameof(termFactory));
-            #endregion
-
-            return this.CreateReader(termFactory);
-		}
+		ITermReader ITermFormat.CreateReader(TermFactory termFactory) => this.CreateReader(termFactory);
 
 		/// <inheritdoc />
-		ITermWriter ITermFormat.CreateWriter()
-		{
-			return this.CreateWriter();
-		}
+		ITermWriter ITermFormat.CreateWriter() => this.CreateWriter();
 	}
 }

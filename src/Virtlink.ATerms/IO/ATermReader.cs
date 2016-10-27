@@ -23,10 +23,7 @@ namespace Virtlink.ATerms.IO
 		internal ATermReader(TermFactory termFactory)
 			: this(termFactory, TermTextReader.DefaultCulture)
         {
-            #region Contract
-            if (termFactory == null)
-                throw new ArgumentNullException(nameof(termFactory));
-            #endregion
+            // Nothing to do.
         }
 
         /// <summary>

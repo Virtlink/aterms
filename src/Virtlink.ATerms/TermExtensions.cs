@@ -156,7 +156,7 @@ namespace Virtlink.ATerms
             #endregion
 
             var cterm = term as IStringTerm;
-			return cterm?.Value;	// TODO: Use C# 6 null coalescing operator.
+			return cterm?.Value;
 		}
 
 		/// <summary>

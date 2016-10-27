@@ -35,8 +35,7 @@ namespace Virtlink.ATerms.IO
             #endregion
 		}
 		#endregion
-
-
+        
 		/// <inheritdoc />
 		protected override void WriteConsTerm(IConsTerm term, TextWriter writer)
         {

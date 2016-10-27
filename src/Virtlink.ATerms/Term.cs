@@ -33,9 +33,6 @@ namespace Virtlink.ATerms
 		/// </summary>
 		/// <param name="index">The zero-based index of the subterm.</param>
 		/// <returns>The subterm.</returns>
-		public ITerm this[int index]
-		{
-			get { return this.SubTerms[index]; }
-		}
+		public ITerm this[int index] => this.SubTerms[index];
 	}
 }

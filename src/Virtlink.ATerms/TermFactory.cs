@@ -10,20 +10,13 @@ namespace Virtlink.ATerms
 	/// </summary>
 	public abstract class TermFactory
 	{
-		private static readonly IReadOnlyList<ITerm> emptyTermList = new ITerm[0];
 		/// <summary>
 		/// Gets an empty list of terms.
 		/// </summary>
 		/// <value>An empty list of terms.</value>
-		public static IReadOnlyList<ITerm> EmptyTermList
-		{
-			get
-			{
-				return TermFactory.emptyTermList;
-			}
-		}
+		public static IReadOnlyList<ITerm> EmptyTermList { get; } = new ITerm[0];
 
-		#region Constructors
+	    #region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TermFactory"/> class.
 		/// </summary>

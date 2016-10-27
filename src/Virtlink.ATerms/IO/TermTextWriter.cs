@@ -15,15 +15,9 @@ namespace Virtlink.ATerms.IO
 		/// Gets the default culture of a text writer.
 		/// </summary>
 		/// <value>The default culture.</value>
-		internal static CultureInfo DefaultCulture
-		{
-			get
-            {
-				return CultureInfo.InvariantCulture;
-			}
-		}
-		
-		/// <summary>
+		internal static CultureInfo DefaultCulture => CultureInfo.InvariantCulture;
+
+	    /// <summary>
 		/// Gets the current culture of the writer.
 		/// </summary>
 		/// <value>The current culture.</value>
