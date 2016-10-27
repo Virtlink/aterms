@@ -1,0 +1,34 @@
+﻿{
+  "version": "1.0.0-*",
+  
+  "title": "ATerm library",
+  "description": "A library for working with Annotated Terms.",
+  "copyright": "Copyright - Daniel Pelsmaeker",
+  "authors": [ "Daniel Pelsmaeker" ],
+
+  "packOptions": {
+    "summary": "A library for working with Annotated Terms.",
+    "tags": [ "virtlink", "annotated", "terms", "term", "aterm" ],
+    "projectUrl": "https://github.com/Virtlink/aterms/",
+    "licenseUrl": "https://github.com/Virtlink/aterms/blob/master/License.md",
+
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/Virtlink/aterms"
+    }
+  },
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    },
+    "netstandard1.5": {
+      "imports": "dnxcore50"
+    },
+    "net45": {}
+  }
+}
