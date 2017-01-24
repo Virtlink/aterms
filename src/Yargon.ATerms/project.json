@@ -1,0 +1,39 @@
+{
+  "version": "1.1.0-*",
+
+  "title": "Yargon ATerm library",
+  "description": "A library for working with Annotated Terms.",
+  "copyright": "Copyright - Daniel Pelsmaeker",
+  "authors": [ "Daniel Pelsmaeker" ],
+
+  "packOptions": {
+    "summary": "A library for working with Annotated Terms.",
+    "tags": [ "cyberlect", "spoofax", "virtlink", "annotated", "terms", "term", "aterm" ],
+    "projectUrl": "https://github.com/Cyberlect/yargon-aterms/",
+    "licenseUrl": "https://github.com/Cyberlect/yargon-aterms/blob/master/License.md",
+
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/Cyberlect/yargon-aterms"
+    }
+  },
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "netstandard1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    },
+    "netstandard1.3": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    },
+    "net45": {}
+  }
+}
