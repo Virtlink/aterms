@@ -7,13 +7,13 @@ before_build:
 - ps: dotnet restore --verbosity detailed
 
 test_script:
-- ps: dotnet test -c $env:CONFIGURATION ./test/Virtlink.ATerms.Tests
+- ps: dotnet test -c $env:CONFIGURATION ./test/Yargon.ATerms.Tests
 
 after_test:
-- ps: dotnet pack -c $env:CONFIGURATION src/Virtlink.ATerms/
+- ps: dotnet pack -c $env:CONFIGURATION src/Yargon.ATerms/
 
 artifacts:
-- path: 'src/Virtlink.ATerms/bin/Release/*.nupkg'
+- path: 'src/Yargon.ATerms/bin/Release/*.nupkg'
   name: NuGet Packages
 
 deploy:
