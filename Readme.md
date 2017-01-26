@@ -1,6 +1,6 @@
 [![AppVeyor](https://img.shields.io/appveyor/ci/Virtlink/yargon-aterms.svg)](https://ci.appveyor.com/project/Virtlink/yargon-aterms)
 [![GitHub release](https://img.shields.io/github/release/Cyberlect/yargon-aterms.svg)](https://github.com/Cyberlect/yargon-aterms/releases)
-[![NuGet](https://img.shields.io/nuget/v/Virtlink.aterms.svg)](https://www.nuget.org/packages/Virtlink.aterms/)
+[![NuGet](https://img.shields.io/nuget/v/Yargon.aterms.svg)](https://www.nuget.org/packages/Yargon.aterms/)
 [![GitHub license](https://img.shields.io/github/license/Cyberlect/yargon-aterms.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/Cyberlect/yargon-aterms/commits/master)
 
