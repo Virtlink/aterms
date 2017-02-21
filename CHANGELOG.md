@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.2.0] - 2017-02-21
 - Add `ITermVisitor.VisitTerm()` method that is called when none other applies.
 - Add `ITermVisitor<TResult>` that returns a result.
 - Add missing contracts for Accept() method of term implementations.
