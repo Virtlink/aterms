@@ -34,5 +34,12 @@ namespace Yargon.ATerms
 		/// </summary>
 		/// <param name="visitor">The visitor.</param>
 		void Accept(ITermVisitor visitor);
+
+        /// <summary>
+        /// Accepts the term visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
+        /// <returns>The result of visiting the term.</returns>
+        TResult Accept<TResult>(ITermVisitor<TResult> visitor);
 	}
 }

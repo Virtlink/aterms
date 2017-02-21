@@ -100,11 +100,20 @@ namespace Yargon.ATerms
 			}
 			#endregion
 
-			/// <inheritdoc />
-			public abstract void Accept(ITermVisitor visitor);
+		    /// <inheritdoc />
+		    public virtual void Accept(ITermVisitor visitor)
+		    {
+		        visitor.VisitTerm(this);
+		    }
 
-			/// <inheritdoc />
-			public override string ToString()
+		    /// <inheritdoc />
+		    public virtual TResult Accept<TResult>(ITermVisitor<TResult> visitor)
+		    {
+		        return visitor.VisitTerm(this);
+		    }
+
+		    /// <inheritdoc />
+            public override string ToString()
 			{
 				// CONTRACT: Inherited from Object
 				return ATermFormat.Instance.CreateWriter().ToString(this);

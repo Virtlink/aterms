@@ -117,7 +117,13 @@ namespace Yargon.ATerms
 			{
 				// CONTRACT: Inherited from ITerm
 				visitor.VisitCons(this);
-			}
+		    }
+
+		    /// <inheritdoc />
+		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
+		    {
+                return visitor.VisitCons(this);
+		    }
 		}
 	}
 }

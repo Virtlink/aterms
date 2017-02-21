@@ -156,7 +156,13 @@ namespace Yargon.ATerms
 			{
 				// CONTRACT: Inherited from ITerm
 				visitor.VisitList(this);
-			}
+		    }
+
+		    /// <inheritdoc />
+		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
+		    {
+		        return visitor.VisitList(this);
+		    }
 
 #if false
 			/// <inheritdoc />
@@ -176,6 +182,6 @@ namespace Yargon.ATerms
 				return GetEnumerator();
 			}
 #endif
-		}
+        }
 	}
 }

@@ -7,11 +7,17 @@ namespace Yargon.ATerms
 	/// </summary>
 	public interface ITermVisitor
 	{
-		/// <summary>
-		/// Visit a <see cref="IConsTerm"/>.
-		/// </summary>
-		/// <param name="term">The term being visited.</param>
-		void VisitCons(IConsTerm term);
+	    /// <summary>
+	    /// Visits a <see cref="ITerm"/>.
+	    /// </summary>
+	    /// <param name="term">The term being visited.</param>
+	    void VisitTerm(ITerm term);
+
+	    /// <summary>
+        /// Visit a <see cref="IConsTerm"/>.
+        /// </summary>
+        /// <param name="term">The term being visited.</param>
+        void VisitCons(IConsTerm term);
 
 		/// <summary>
 		/// Visit a <see cref="IIntTerm"/>.
