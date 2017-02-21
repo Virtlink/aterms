@@ -91,7 +91,7 @@ namespace Yargon.ATerms.IO
                 throw new ArgumentNullException(nameof(writer));
             #endregion
 
-			// TODO: Implement in F#?
+			// TODO: Implement in C#7!
 			if (term is IConsTerm)
 				this.WriteConsTerm((IConsTerm)term, writer);
 			else if (term is IIntTerm)

@@ -14,16 +14,9 @@ namespace Yargon.ATerms
 			public int Count { get; }
 
 			/// <inheritdoc />
-			public bool IsEmpty
-			{
-				get
-				{
-					// CONTRACT: Inherited from ITerm
-					return Count == 0;
-				}
-			}
-			
-			/// <inheritdoc />
+			public bool IsEmpty => Count == 0;
+
+		    /// <inheritdoc />
 			public ITerm Head { get; }
 			
 			/// <inheritdoc />
@@ -34,7 +27,6 @@ namespace Yargon.ATerms
 			{
 				get
 				{
-					// CONTRACT: Inherited from ITerm
 					List<ITerm> result = new List<ITerm>();
 					IListTerm current = this;
 					while (!current.IsEmpty)
@@ -154,34 +146,24 @@ namespace Yargon.ATerms
 			/// <inheritdoc />
 			public override void Accept(ITermVisitor visitor)
 			{
-				// CONTRACT: Inherited from ITerm
-				visitor.VisitList(this);
+			    #region Contract
+			    if (visitor == null)
+			        throw new ArgumentNullException(nameof(visitor));
+			    #endregion
+
+			    visitor.VisitList(this);
 		    }
 
 		    /// <inheritdoc />
 		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
 		    {
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
 		        return visitor.VisitList(this);
 		    }
-
-#if false
-			/// <inheritdoc />
-			public IEnumerator<ITerm> GetEnumerator()
-			{
-				IListTerm current = this;
-				while (current != null && !current.IsEmpty)
-				{
-					yield return current.Head;
-					current = current.Tail;
-				}
-			}
-
-			/// <inheritdoc />
-			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-			{
-				return GetEnumerator();
-			}
-#endif
         }
 	}
 }

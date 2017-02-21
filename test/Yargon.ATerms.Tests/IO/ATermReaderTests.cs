@@ -5,11 +5,13 @@ using System.Text;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms.IO
 {
-	[TestFixture]
+	/// <summary>
+    /// Tests the <see cref="ATermReader"/> class.
+    /// </summary>
 	public sealed class ATermReaderTests : TestBase
 	{
 		#region SUT
@@ -32,8 +34,7 @@ namespace Yargon.ATerms.IO
 		{
 			return Format.CreateWriter();
 		}
-
-		[TestFixture]
+        
 		public sealed class ATermReaderTests_TermTextReaderTests : TermTextReaderTests
 		{
 			public override TermTextReader CreateSUT()
@@ -46,8 +47,7 @@ namespace Yargon.ATerms.IO
 				return new ATermReaderTests().CreateWriter();
 			}
 		}
-
-		[TestFixture]
+        
 		public sealed class ATermReaderTests_ITermReaderTests : ITermReaderTests
 		{
 			public override ITermReader CreateSUT()
@@ -62,7 +62,7 @@ namespace Yargon.ATerms.IO
 		}
 		#endregion
 
-		[Test]
+		[Fact]
 		public void ReadsCons()
 		{
 			// Arrange
@@ -75,10 +75,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsTuple()
 		{
 			// Arrange
@@ -90,10 +90,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsInt()
 		{
 			// Arrange
@@ -105,10 +105,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsReal()
 		{
 			// Arrange
@@ -120,10 +120,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsString()
 		{
 			// Arrange
@@ -135,10 +135,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsList()
 		{
 			// Arrange
@@ -150,10 +150,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 
-		[Test]
+		[Fact]
 		public void ReadsPlaceholder()
 		{
 			// Arrange
@@ -165,7 +165,7 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(input);
 
 			// Assert
-			Assert.AreEqual(term, result);
+			Assert.Equal(term, result);
 		}
 	}
 }

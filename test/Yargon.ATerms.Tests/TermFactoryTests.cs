@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms
 {
@@ -12,7 +12,7 @@ namespace Yargon.ATerms
 		/// <returns>The instance to test.</returns>
 		public abstract TermFactory CreateSUT();
 
-		[Test]
+		[Fact]
 		public void CanBuildIntTerm()
 		{
 			// Arrange
@@ -23,12 +23,12 @@ namespace Yargon.ATerms
 			var result = sut.Int(value);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildIntTermWithAnnotations()
 		{
 			// Arrange
@@ -40,12 +40,12 @@ namespace Yargon.ATerms
 			var result = sut.Int(value, annos);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildRealTerm()
 		{
 			// Arrange
@@ -56,12 +56,12 @@ namespace Yargon.ATerms
 			var result = sut.Real(value);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildRealTermWithAnnotations()
 		{
 			// Arrange
@@ -73,12 +73,12 @@ namespace Yargon.ATerms
 			var result = sut.Real(value, annos);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildStringTerm()
 		{
 			// Arrange
@@ -89,12 +89,12 @@ namespace Yargon.ATerms
 			var result = sut.String(value);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildStringTermWithAnnotations()
 		{
 			// Arrange
@@ -106,12 +106,12 @@ namespace Yargon.ATerms
 			var result = sut.String(value, annos);
 
 			// Assert
-			Assert.AreEqual(value, result.Value);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(value, result.Value);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildListTerm()
 		{
 			// Arrange
@@ -124,15 +124,15 @@ namespace Yargon.ATerms
 			var result = sut.List(elem0, elem1, elem2);
 
 			// Assert
-			Assert.AreEqual(new ITerm[] { elem0, elem1, elem2 }, result.SubTerms);
-			Assert.IsEmpty(result.Annotations);
-			Assert.AreEqual(3, result.Count);
-			Assert.IsFalse(result.IsEmpty);
-			Assert.AreEqual(elem0, result.Head);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal((IEnumerable<ITerm>)new ITerm[] { elem0, elem1, elem2 }, result.SubTerms);
+			Assert.Empty(result.Annotations);
+			Assert.Equal(3, result.Count);
+			Assert.False(result.IsEmpty);
+			Assert.Equal(elem0, result.Head);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildListTermWithAnnotations()
 		{
 			// Arrange
@@ -146,15 +146,15 @@ namespace Yargon.ATerms
 			var result = sut.List(new ITerm[]{elem0, elem1, elem2}, annos);
 
 			// Assert
-			Assert.AreEqual(new ITerm[] { elem0, elem1, elem2 }, result.SubTerms);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.AreEqual(3, result.Count);
-			Assert.IsFalse(result.IsEmpty);
-			Assert.AreEqual(elem0, result.Head);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal((IEnumerable<ITerm>)new ITerm[] { elem0, elem1, elem2 }, result.SubTerms);
+			Assert.Equal(annos, result.Annotations);
+			Assert.Equal(3, result.Count);
+			Assert.False(result.IsEmpty);
+			Assert.Equal(elem0, result.Head);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildEmptyListTerm()
 		{
 			// Arrange
@@ -164,15 +164,15 @@ namespace Yargon.ATerms
 			var result = sut.List();
 
 			// Assert
-			Assert.IsEmpty(result.Annotations);
-			Assert.AreEqual(0, result.Count);
-			Assert.IsTrue(result.IsEmpty);
-			Assert.IsNull(result.Head);
-			Assert.IsNull(result.Tail);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Empty(result.Annotations);
+			Assert.Equal(0, result.Count);
+			Assert.True(result.IsEmpty);
+			Assert.Null(result.Head);
+			Assert.Null(result.Tail);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildEmptyListTermWithAnnotations()
 		{
 			// Arrange
@@ -183,15 +183,15 @@ namespace Yargon.ATerms
 			var result = sut.List(TermFactory.EmptyTermList, annos);
 
 			// Assert
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.AreEqual(0, result.Count);
-			Assert.IsTrue(result.IsEmpty);
-			Assert.IsNull(result.Head);
-			Assert.IsNull(result.Tail);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(annos, result.Annotations);
+			Assert.Equal(0, result.Count);
+			Assert.True(result.IsEmpty);
+			Assert.Null(result.Head);
+			Assert.Null(result.Tail);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildConsTerm()
 		{
 			// Arrange
@@ -203,13 +203,13 @@ namespace Yargon.ATerms
 			var result = sut.Cons(consName, new ITerm[] { arg0 });
 
 			// Assert
-			Assert.AreEqual(consName, result.Name);
-			Assert.AreEqual(new ITerm[] { arg0 }, result.SubTerms);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(consName, result.Name);
+			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildConsTermWithAnnotations()
 		{
 			// Arrange
@@ -222,13 +222,13 @@ namespace Yargon.ATerms
 			var result = sut.Cons(consName, new ITerm[] { arg0 }, annos);
 
 			// Assert
-			Assert.AreEqual(consName, result.Name);
-			Assert.AreEqual(new ITerm[] { arg0 }, result.SubTerms);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(consName, result.Name);
+			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildTupleTerm()
 		{
 			// Arrange
@@ -239,13 +239,13 @@ namespace Yargon.ATerms
 			var result = sut.Tuple(new ITerm[] { arg0 });
 
 			// Assert
-			Assert.AreEqual(String.Empty, result.Name);
-			Assert.AreEqual(new ITerm[] { arg0 }, result.SubTerms);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(String.Empty, result.Name);
+			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildTupleTermWithAnnotations()
 		{
 			// Arrange
@@ -257,13 +257,13 @@ namespace Yargon.ATerms
 			var result = sut.Tuple(new ITerm[] { arg0 }, annos);
 
 			// Assert
-			Assert.AreEqual(String.Empty, result.Name);
-			Assert.AreEqual(new ITerm[] { arg0 }, result.SubTerms);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(String.Empty, result.Name);
+			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildPlaceholderTerm()
 		{
 			// Arrange
@@ -274,12 +274,12 @@ namespace Yargon.ATerms
 			var result = sut.Placeholder(template);
 
 			// Assert
-			Assert.AreEqual(new ITerm[] { template }, result.SubTerms);
-			Assert.IsEmpty(result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(new ITerm[] { template }, result.SubTerms);
+			Assert.Empty(result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
-		[Test]
+		[Fact]
 		public void CanBuildPlaceholderTermWithAnnotations()
 		{
 			// Arrange
@@ -291,9 +291,9 @@ namespace Yargon.ATerms
 			var result = sut.Placeholder(template, annos);
 
 			// Assert
-			Assert.AreEqual(new ITerm[] { template }, result.SubTerms);
-			Assert.AreEqual(annos, result.Annotations);
-			Assert.IsTrue(sut.IsBuiltByThisFactory(result));
+			Assert.Equal(new ITerm[] { template }, result.SubTerms);
+			Assert.Equal(annos, result.Annotations);
+			Assert.True(sut.IsBuiltByThisFactory(result));
 		}
 
 		/// <summary>

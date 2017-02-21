@@ -1,10 +1,9 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 
 namespace Yargon.ATerms
 {
 	partial class TrivialTermFactoryTests
 	{
-		[TestFixture]
 		public sealed class RealTermTests : TestBase
 		{
 			#region SUT

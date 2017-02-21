@@ -19,7 +19,7 @@ namespace Yargon.ATerms
 				get
 				{
 					// CONTRACT: Inherited from ITerm
-					return new ITerm[] {Template};
+					return new ITerm[] {this.Template};
 				}
 			}
 
@@ -105,13 +105,22 @@ namespace Yargon.ATerms
 			/// <inheritdoc />
 			public override void Accept(ITermVisitor visitor)
 			{
-				// CONTRACT: Inherited from ITerm
-				visitor.VisitPlaceholder(this);
+			    #region Contract
+			    if (visitor == null)
+			        throw new ArgumentNullException(nameof(visitor));
+			    #endregion
+
+			    visitor.VisitPlaceholder(this);
 		    }
 
 		    /// <inheritdoc />
 		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
 		    {
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
 		        return visitor.VisitPlaceholder(this);
 		    }
 		}

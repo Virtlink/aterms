@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using Moq;
 
 namespace Yargon.ATerms
 {
+    /// <summary>
+    /// Tests the <see cref="IConsTerm"/> interface.
+    /// </summary>
 	public abstract class IConsTermTests : TestBase
 	{
 		/// <summary>
@@ -14,7 +17,7 @@ namespace Yargon.ATerms
 		/// <returns>The instance to test.</returns>
 		public abstract IConsTerm CreateSUT(string name, IEnumerable<ITerm> terms);
 
-		[Test]
+		[Fact]
 		public void HasExpectedPropertyValues()
 		{
 			// Arrange
@@ -25,12 +28,12 @@ namespace Yargon.ATerms
 			var sut = CreateSUT(consName, values);
 
 			// Assert
-			Assert.AreEqual(consName, sut.Name);
-			Assert.AreEqual(values, sut.SubTerms);
-			Assert.IsEmpty(sut.Annotations);
+			Assert.Equal(consName, sut.Name);
+			Assert.Equal(values, sut.SubTerms);
+			Assert.Empty(sut.Annotations);
 		}
 
-		[Test]
+		[Fact]
 		public void ToStringReturnsAString()
 		{
 			// Arrange
@@ -44,10 +47,10 @@ namespace Yargon.ATerms
 			var result = sut.ToString();
 
 			// Assert
-			Assert.AreEqual("Cons(0,1)", result);
+			Assert.Equal("Cons(0,1)", result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoEqualTermsAreEqual()
 		{
 			// Arrange
@@ -62,10 +65,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsTrue(result);
+			Assert.True(result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoDifferentTermsAreDifferent()
 		{
 			// Arrange
@@ -81,10 +84,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.False(result);
 		}
 
-		[Test]
+		[Fact]
 		public void CallsVisitorMethod()
 		{
 			// Arrange

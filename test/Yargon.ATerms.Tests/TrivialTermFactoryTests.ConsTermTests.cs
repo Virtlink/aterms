@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms
 {
 	partial class TrivialTermFactoryTests
 	{
-		[TestFixture]
 		public sealed class ConsTermTests : TestBase
 		{
 			#region SUT

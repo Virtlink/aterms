@@ -103,19 +103,28 @@ namespace Yargon.ATerms
 		    /// <inheritdoc />
 		    public virtual void Accept(ITermVisitor visitor)
 		    {
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
 		        visitor.VisitTerm(this);
 		    }
 
 		    /// <inheritdoc />
 		    public virtual TResult Accept<TResult>(ITermVisitor<TResult> visitor)
 		    {
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
 		        return visitor.VisitTerm(this);
 		    }
 
 		    /// <inheritdoc />
             public override string ToString()
 			{
-				// CONTRACT: Inherited from Object
 				return ATermFormat.Instance.CreateWriter().ToString(this);
 			}
 		}

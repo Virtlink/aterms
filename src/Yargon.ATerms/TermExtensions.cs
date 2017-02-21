@@ -99,7 +99,7 @@ namespace Yargon.ATerms
             #endregion
 
             var cterm = term as IRealTerm;
-			return cterm?.Value;	// TODO: Use C# 6 null coalescing operator.
+			return cterm?.Value;
 		}
 
 		/// <summary>

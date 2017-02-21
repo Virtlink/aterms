@@ -1,9 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Moq;
 
 namespace Yargon.ATerms
 {
-	public abstract class IPlaceholderTermTests : TestBase
+    /// <summary>
+    /// Tests the <see cref="IPlaceholderTerm"/> interface.
+    /// </summary>
+    public abstract class IPlaceholderTermTests : TestBase
 	{
 		/// <summary>
 		/// Creates the Subject Under Test.
@@ -12,7 +15,7 @@ namespace Yargon.ATerms
 		/// <returns>The instance to test.</returns>
 		public abstract IPlaceholderTerm CreateSUT(ITerm template);
 
-		[Test]
+		[Fact]
 		public void HasExpectedPropertyValues()
 		{
 			// Arrange
@@ -20,11 +23,11 @@ namespace Yargon.ATerms
 			var sut = CreateSUT(template);
 
 			// Assert
-			Assert.AreEqual(new ITerm[] { template }, sut.SubTerms);
-			Assert.IsEmpty(sut.Annotations);
+			Assert.Equal(new ITerm[] { template }, sut.SubTerms);
+			Assert.Empty(sut.Annotations);
 		}
 
-		[Test]
+		[Fact]
 		public void ToStringReturnsAString()
 		{
 			// Arrange
@@ -35,10 +38,10 @@ namespace Yargon.ATerms
 			var result = sut.ToString();
 
 			// Assert
-			Assert.AreEqual("<0>", result);
+			Assert.Equal("<0>", result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoEqualTermsAreEqual()
 		{
 			// Arrange
@@ -50,10 +53,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsTrue(result);
+			Assert.True(result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoDifferentTermsAreDifferent()
 		{
 			// Arrange
@@ -66,10 +69,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.False(result);
 		}
 
-		[Test]
+		[Fact]
 		public void CallsVisitorMethod()
 		{
 			// Arrange

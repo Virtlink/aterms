@@ -93,13 +93,22 @@ namespace Yargon.ATerms
 			/// <inheritdoc />
 			public override void Accept(ITermVisitor visitor)
 			{
-				// CONTRACT: Inherited from ITerm
-				visitor.VisitReal(this);
+			    #region Contract
+			    if (visitor == null)
+			        throw new ArgumentNullException(nameof(visitor));
+			    #endregion
+
+			    visitor.VisitReal(this);
 		    }
 
 		    /// <inheritdoc />
 		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
 		    {
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
 		        return visitor.VisitReal(this);
 		    }
 		}

@@ -15,16 +15,9 @@ namespace Yargon.ATerms
 			public string Name { get; }
 
 			/// <inheritdoc />
-			public bool IsTuple
-			{
-				get
-				{
-					// CONTRACT: Inherited from IConsTerm
-					return this.Name == System.String.Empty;
-				}
-			}
-			
-			/// <inheritdoc />
+			public bool IsTuple => this.Name == System.String.Empty;
+
+		    /// <inheritdoc />
 			public override IReadOnlyList<ITerm> SubTerms { get; }
 
 			#region Constructors
@@ -115,14 +108,23 @@ namespace Yargon.ATerms
 			/// <inheritdoc />
 			public override void Accept(ITermVisitor visitor)
 			{
-				// CONTRACT: Inherited from ITerm
-				visitor.VisitCons(this);
+                #region Contract
+                if (visitor == null)
+                    throw new ArgumentNullException(nameof(visitor));
+                #endregion
+
+                visitor.VisitCons(this);
 		    }
 
 		    /// <inheritdoc />
 		    public override TResult Accept<TResult>(ITermVisitor<TResult> visitor)
 		    {
-                return visitor.VisitCons(this);
+		        #region Contract
+		        if (visitor == null)
+		            throw new ArgumentNullException(nameof(visitor));
+		        #endregion
+
+		        return visitor.VisitCons(this);
 		    }
 		}
 	}

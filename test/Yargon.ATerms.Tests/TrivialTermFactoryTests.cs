@@ -1,8 +1,10 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 
 namespace Yargon.ATerms.Tests
 {
-	[TestFixture]
+    /// <summary>
+    /// Tests the <see cref="TrivialTermFactory"/> class.
+    /// </summary>
 	public sealed partial class TrivialTermFactoryTests
 	{
 		#region SUT
@@ -10,8 +12,7 @@ namespace Yargon.ATerms.Tests
 		{
 			return new TrivialTermFactory();
 		}
-
-		[TestFixture]
+        
 		public sealed class TrivialTermFactory_TermFactory : TermFactoryTests
 		{
 			public override TermFactory CreateSUT()

@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using Moq;
 
 namespace Yargon.ATerms
 {
-	public abstract class IListTermTests : TestBase
+    /// <summary>
+    /// Tests the <see cref="IListTerm"/> interface.
+    /// </summary>
+    public abstract class IListTermTests : TestBase
 	{
 		/// <summary>
 		/// Creates the Subject Under Test.
@@ -13,7 +16,7 @@ namespace Yargon.ATerms
 		/// <returns>The instance to test.</returns>
 		public abstract IListTerm CreateSUT(IEnumerable<ITerm> values);
 
-		[Test]
+		[Fact]
 		public void HasExpectedPropertyValues()
 		{
 			// Arrange
@@ -24,15 +27,15 @@ namespace Yargon.ATerms
 			var sut = CreateSUT(values);
 
 			// Assert
-			Assert.AreEqual(values, sut.SubTerms);
-			Assert.AreEqual(3, sut.Count);
-			Assert.IsFalse(sut.IsEmpty);
-			Assert.AreEqual(val0, sut.Head);
-			Assert.AreEqual(new ITerm[]{ val1, val2 }, sut.Tail.SubTerms);
-			Assert.IsEmpty(sut.Annotations);
+			Assert.Equal(values, sut.SubTerms);
+			Assert.Equal(3, sut.Count);
+			Assert.False(sut.IsEmpty);
+			Assert.Equal(val0, sut.Head);
+			Assert.Equal(new ITerm[]{ val1, val2 }, sut.Tail.SubTerms);
+			Assert.Empty(sut.Annotations);
 		}
 
-		[Test]
+		[Fact]
 		public void ToStringReturnsAString()
 		{
 			// Arrange
@@ -46,10 +49,10 @@ namespace Yargon.ATerms
 			var result = sut.ToString();
 
 			// Assert
-			Assert.AreEqual("[0,1,2]", result);
+			Assert.Equal("[0,1,2]", result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoEqualTermsAreEqual()
 		{
 			// Arrange
@@ -64,10 +67,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsTrue(result);
+			Assert.True(result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoDifferentTermsAreDifferent()
 		{
 			// Arrange
@@ -82,10 +85,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.False(result);
 		}
 
-		[Test]
+		[Fact]
 		public void CallsVisitorMethod()
 		{
 			// Arrange

@@ -5,11 +5,13 @@ using System.Text;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms.IO
 {
-	[TestFixture]
+    /// <summary>
+    /// Tests the <see cref="ATermWriter"/> class.
+    /// </summary>
 	public sealed class ATermWriterTests : TestBase
 	{
 		#region SUT
@@ -32,8 +34,7 @@ namespace Yargon.ATerms.IO
 		{
 			return Format.CreateReader(Factory);
 		}
-
-		[TestFixture]
+        
 		public sealed class ATermWriterTests_TermTextWriterTests : TermTextWriterTests
 		{
 			public override TermTextWriter CreateSUT()
@@ -46,8 +47,7 @@ namespace Yargon.ATerms.IO
 				return new ATermWriterTests().CreateReader();
 			}
 		}
-
-		[TestFixture]
+        
 		public sealed class ATermWriterTests_ITermWriterTests : ITermWriterTests
 		{
 			public override ITermWriter CreateSUT()
@@ -61,7 +61,7 @@ namespace Yargon.ATerms.IO
 		}
 		#endregion
 
-		[Test]
+		[Fact]
 		public void WritesCons()
 		{
 			// Arrange
@@ -73,10 +73,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("Cons(0,1)", result);
+			Assert.Equal("Cons(0,1)", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesTuple()
 		{
 			// Arrange
@@ -87,10 +87,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("(0,1)", result);
+			Assert.Equal("(0,1)", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesInt()
 		{
 			// Arrange
@@ -101,10 +101,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("1", result);
+			Assert.Equal("1", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesReal()
 		{
 			// Arrange
@@ -115,10 +115,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("4.2", result);
+			Assert.Equal("4.2", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesString()
 		{
 			// Arrange
@@ -129,10 +129,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("\"abc\"", result);
+			Assert.Equal("\"abc\"", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesList()
 		{
 			// Arrange
@@ -143,10 +143,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("[0,1,2]", result);
+			Assert.Equal("[0,1,2]", result);
 		}
 
-		[Test]
+		[Fact]
 		public void WritesPlaceholder()
 		{
 			// Arrange
@@ -157,7 +157,7 @@ namespace Yargon.ATerms.IO
 			var result = sut.ToString(term);
 
 			// Assert
-			Assert.AreEqual("<0>", result);
+			Assert.Equal("<0>", result);
 		}
 	}
 }

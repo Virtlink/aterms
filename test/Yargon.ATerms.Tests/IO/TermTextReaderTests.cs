@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms.IO
 {
+    /// <summary>
+    /// Tests the <see cref="TermTextReader"/> class.
+    /// </summary>
 	public abstract class TermTextReaderTests : TestBase
 	{
 		/// <summary>
@@ -22,7 +25,7 @@ namespace Yargon.ATerms.IO
 		/// <returns>The writer.</returns>
 		public abstract TermTextWriter CreateWriter();
 
-		[Test]
+		[Fact]
 		public void CanReadFromTextReader()
 		{
 			// Arrange
@@ -37,10 +40,10 @@ namespace Yargon.ATerms.IO
 			var result = sut.Read(reader);
 
 			// Assert
-			Assert.IsNotNull(result);
+			Assert.NotNull(result);
 		}
 
-		[Test]
+		[Fact]
 		public void CanReadFromString()
 		{
 			// Arrange
@@ -56,7 +59,7 @@ namespace Yargon.ATerms.IO
 			var result = sut.FromString(str);
 
 			// Assert
-			Assert.IsNotNull(result);
+			Assert.NotNull(result);
 		}
 	}
 }

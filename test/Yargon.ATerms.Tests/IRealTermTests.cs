@@ -1,9 +1,12 @@
 ﻿using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Yargon.ATerms
 {
-	public abstract class IRealTermTests : TestBase
+    /// <summary>
+    /// Tests the <see cref="IRealTerm"/> interface.
+    /// </summary>
+    public abstract class IRealTermTests : TestBase
 	{
 		/// <summary>
 		/// Creates the Subject Under Test.
@@ -12,7 +15,7 @@ namespace Yargon.ATerms
 		/// <returns>The instance to test.</returns>
 		public abstract IRealTerm CreateSUT(float value);
 
-		[Test]
+		[Fact]
 		public void HasExpectedPropertyValues()
 		{
 			// Arrange
@@ -20,12 +23,12 @@ namespace Yargon.ATerms
 			var sut = CreateSUT(value);
 
 			// Assert
-			Assert.AreEqual(value, sut.Value);
-			Assert.IsEmpty(sut.Annotations);
-			Assert.IsEmpty(sut.SubTerms);
+			Assert.Equal(value, sut.Value);
+			Assert.Empty(sut.Annotations);
+			Assert.Empty(sut.SubTerms);
 		}
 
-		[Test]
+		[Fact]
 		public void ToStringReturnsAString()
 		{
 			// Arrange
@@ -36,10 +39,10 @@ namespace Yargon.ATerms
 			var result = sut.ToString();
 
 			// Assert
-			Assert.AreEqual("4.2", result);
+			Assert.Equal("4.2", result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoEqualTermsAreEqual()
 		{
 			// Arrange
@@ -51,10 +54,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsTrue(result);
+			Assert.True(result);
 		}
 
-		[Test]
+		[Fact]
 		public void TwoDifferentTermsAreDifferent()
 		{
 			// Arrange
@@ -67,10 +70,10 @@ namespace Yargon.ATerms
 			var result = sut.Equals(other);
 
 			// Assert
-			Assert.IsFalse(result);
+			Assert.False(result);
 		}
 
-		[Test]
+		[Fact]
 		public void CallsVisitorMethod()
 		{
 			// Arrange

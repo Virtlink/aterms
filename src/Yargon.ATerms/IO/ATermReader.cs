@@ -69,8 +69,7 @@ namespace Yargon.ATerms.IO
 			else if (Char.IsLetter(ch))
 				return ReadCons(reader);
 			
-			// TODO: Use the new string interpolation from C# 6.
-			throw new TermParseException("Invalid term starting with '" + ch + "'.");
+			throw new TermParseException($"Invalid term starting with '{ch}'.");
 		}
 
 		/// <summary>
@@ -91,8 +90,7 @@ namespace Yargon.ATerms.IO
 			// TODO: Handle the case where Read() returns -1.
 			char ch = (char)reader.Read();
 			if (ch != '[')
-				// TODO: Use C# 6 string interpolation.
-				throw new TermParseException("Expected list, got '" + ch + "' character.");
+				throw new TermParseException($"Expected list, got '{ch}' character.");
 
 			var terms = this.ReadTermSequence(reader, ',', ']');
 			var annotations = this.ReadAnnotations(reader);
@@ -131,8 +129,7 @@ namespace Yargon.ATerms.IO
 			// TODO: Handle the case where Read() returns -1.
 			char ch = (char)reader.Read();
 			if (ch != '"')
-				// TODO: Use C# 6 string interpolation.
-				throw new TermParseException("Expected string, got '" + ch + "' character.");
+				throw new TermParseException($"Expected string, got '{ch}' character.");
 
 			var stringBuilder = new StringBuilder();
 
@@ -178,8 +175,7 @@ namespace Yargon.ATerms.IO
 							break;
 						// TODO: Support Unicode escapes \x and \u and \U.
 						default:
-							// TODO: Use C# 6 string interpolation.
-							throw new TermParseException("Unrecognized escape sequence: '\\" + ch + "'.");
+							throw new TermParseException($"Unrecognized escape sequence: '\\{ch}'.");
 					}
 				}
 				else
@@ -194,7 +190,7 @@ namespace Yargon.ATerms.IO
 
 			var annotations = this.ReadAnnotations(reader);
 
-			return TermFactory.String(stringBuilder.ToString(), annotations);
+			return this.TermFactory.String(stringBuilder.ToString(), annotations);
 		}
 
 		/// <summary>
@@ -271,8 +267,7 @@ namespace Yargon.ATerms.IO
 			// TODO: Handle the case where Read() returns -1.
 			char ch = (char)reader.Read();
 			if (ch != '<')
-				// TODO: Use C# 6 string interpolation.
-				throw new TermParseException("Expected placeholder, got '" + ch + "' character.");
+				throw new TermParseException($"Expected placeholder, got '{ch}' character.");
 
 			var template = this.Read(reader);
 
@@ -281,8 +276,7 @@ namespace Yargon.ATerms.IO
 			// TODO: Handle the case where Read() returns -1.
 			ch = (char)reader.Read();
 			if (ch != '>')
-				// TODO: Use C# 6 string interpolation.
-				throw new TermParseException("Expected placeholder end, got '" + ch + "' character.");
+				throw new TermParseException($"Expected placeholder end, got '{ch}' character.");
 
 			var annotations = this.ReadAnnotations(reader);
 

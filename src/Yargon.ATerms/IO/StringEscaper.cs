@@ -50,6 +50,7 @@ namespace Yargon.ATerms.IO
                 throw new ArgumentNullException(nameof(sequences));
             #endregion
 
+            // TODO: Implement
             throw new NotImplementedException();
         }
     }
