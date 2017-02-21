@@ -2,6 +2,8 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
+using JetBrains.Annotations;
+using Virtlink.Utilib.IO;
 
 namespace Yargon.ATerms.IO
 {
@@ -46,13 +48,15 @@ namespace Yargon.ATerms.IO
 			this.TermFactory = termFactory;
 			this.Culture = culture;
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Reads a term from a string.
-		/// </summary>
-		/// <param name="str">The string to read.</param>
-		/// <returns>The read term.</returns>
+        /// <summary>
+        /// Reads a term from a string.
+        /// </summary>
+        /// <param name="str">The string to read.</param>
+        /// <returns>The read term; or <see langword="null"/>
+        /// when there are no more terms to read.</returns>
+        [CanBeNull]
 		public ITerm FromString(string str)
         {
             #region Contract
@@ -64,28 +68,31 @@ namespace Yargon.ATerms.IO
 			return Read(reader);
 		}
 
-		/// <inheritdoc />
-		public ITerm Read(Stream input)
+        /// <inheritdoc />
+        [CanBeNull]
+        public ITerm Read(Stream input)
         {
             #region Contract
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
             #endregion
 
-            using (var reader = new StreamReader(input, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), true, 4096, true))
+            using (var reader = input.ReadText())
 			{
 				return Read(reader);
 			}
 		}
 
-		/// <summary>
-		/// Reads term from a <see cref="TextReader"/>.
-		/// </summary>
-		/// <param name="reader">The reader to read to.</param>
-		/// <returns>The term that was read.</returns>
-		/// <remarks>
-		/// The reader is not closed by this method.
-		/// </remarks>
-		public abstract ITerm Read(TextReader reader);
+        /// <summary>
+        /// Reads term from a <see cref="TextReader"/>.
+        /// </summary>
+        /// <param name="reader">The reader to read to.</param>
+        /// <returns>The read term; or <see langword="null"/>
+        /// when there are no more terms to read.</returns>
+        /// <remarks>
+        /// The reader is not closed by this method.
+        /// </remarks>
+        [CanBeNull]
+        public abstract ITerm Read(TextReader reader);
 	}
 }

@@ -19,6 +19,7 @@
   },
 
   "dependencies": {
+    "Virtlink.Utilib": "1.19.0"
   },
 
   "frameworks": {

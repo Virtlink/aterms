@@ -5,11 +5,10 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using JetBrains.Annotations;
+using Virtlink.Utilib;
 
 namespace Yargon.ATerms.IO
 {
-	// TODO: Support unicode.
-
 	/// <summary>
 	/// Reads terms from a texual format.
 	/// </summary>
@@ -51,10 +50,13 @@ namespace Yargon.ATerms.IO
                 throw new ArgumentNullException(nameof(reader));
             #endregion
 
-            this.ReadWhitespace(reader);
+            if (!ReadWhitespace(reader))
+            {
+                // Read until the end.
+                return null;
+            }
 
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char)reader.Peek();
+            char ch = reader.PeekOrFail();
 
 			switch (ch)
 			{
@@ -87,15 +89,12 @@ namespace Yargon.ATerms.IO
 			Debug.Assert(reader != null);
 			#endregion
 
-			// TODO: Handle the case where Read() returns -1.
-			char ch = (char)reader.Read();
-			if (ch != '[')
-				throw new TermParseException($"Expected list, got '{ch}' character.");
+		    reader.ReadExpected('[', "list");
 
-			var terms = this.ReadTermSequence(reader, ',', ']');
-			var annotations = this.ReadAnnotations(reader);
+			var terms = ReadTermSequence(reader, ',', ']');
+			var annotations = ReadAnnotations(reader);
 
-			return TermFactory.List(terms, annotations);
+			return this.TermFactory.List(terms, annotations);
 		}
 
 		/// <summary>
@@ -108,7 +107,7 @@ namespace Yargon.ATerms.IO
 			Debug.Assert(reader != null);
 			#endregion
 
-			return this.ReadCons(reader);
+			return ReadCons(reader);
 		}
 
 		/// <summary>
@@ -126,72 +125,126 @@ namespace Yargon.ATerms.IO
 			Debug.Assert(reader != null);
 			#endregion
 
-			// TODO: Handle the case where Read() returns -1.
-			char ch = (char)reader.Read();
-			if (ch != '"')
-				throw new TermParseException($"Expected string, got '{ch}' character.");
+		    reader.ReadExpected('"', "string");
 
 			var stringBuilder = new StringBuilder();
-
-			// TODO: Handle the case where Read() returns -1.
-			ch = (char)reader.Read();
+            
+		    char ch = reader.ReadOrFail();
 
 			while (ch != '"')
 			{
 				if (ch == '\\')
 				{
 					// Escaped character.
-					// TODO: Handle the case where Read() returns -1.
-					ch = (char)reader.Read();
+				    ch = reader.ReadOrFail();
 
-					switch (ch)
-					{
-						case 'n':	// Line feed
-							stringBuilder.Append('\n');
-							break;
-						case 'r':	// Carriage return
-							stringBuilder.Append('\r');
-							break;
-						case 'f':	// Form feed
-							stringBuilder.Append('\f');
-							break;
-						case 't':	// Horizontal tab
-							stringBuilder.Append('\t');
-							break;
-						case 'v':	// Vertical tab
-							stringBuilder.Append('\v');
-							break;
-						case 'b':	// Backspace
-							stringBuilder.Append('\b');
-							break;
-						case '\\':	// Backslash
-							stringBuilder.Append('\\');
-							break;
-						case '\'':	// Single quote
-							stringBuilder.Append('\'');
-							break;
-						case '"':	// Double quote
-							stringBuilder.Append('"');
-							break;
-						// TODO: Support Unicode escapes \x and \u and \U.
-						default:
-							throw new TermParseException($"Unrecognized escape sequence: '\\{ch}'.");
-					}
+				    switch (ch)
+				    {
+				        case 'n': // Line feed
+				            stringBuilder.Append('\n');
+				            break;
+				        case 'r': // Carriage return
+				            stringBuilder.Append('\r');
+				            break;
+				        case 'f': // Form feed
+				            stringBuilder.Append('\f');
+				            break;
+				        case 't': // Horizontal tab
+				            stringBuilder.Append('\t');
+				            break;
+				        case '\\': // Backslash
+				            stringBuilder.Append('\\');
+				            break;
+				        case '\'': // Single quote
+				            stringBuilder.Append('\'');
+				            break;
+				        case '"': // Double quote
+				            stringBuilder.Append('"');
+				            break;
+				        case 'u': // 4-digit decimal Unicode character
+				            stringBuilder.Append(ReadEscapedDecimalUnicode(reader, 4, 4));
+				            break;
+				        case 'U': // 8-digit decimal Unicode character
+				            stringBuilder.Append(ReadEscapedDecimalUnicode(reader, 8, 8));
+				            break;
+				        case 'x': // up to 4 digit hexadecimal Unicode character
+				            stringBuilder.Append(ReadEscapedHexadecimalUnicode(reader, 1, 4));
+				            break;
+				        default:
+				            throw new TermParseException($"Unrecognized escape sequence: '\\{ch}'.");
+				    }
 				}
 				else
 				{
 					// Any non-escaped character.
 					stringBuilder.Append(ch);
 				}
-
-				// TODO: Handle the case where Read() returns -1.
-				ch = (char)reader.Read();
+                
+				ch = reader.ReadOrFail();
 			}
 
-			var annotations = this.ReadAnnotations(reader);
+			var annotations = ReadAnnotations(reader);
 
 			return this.TermFactory.String(stringBuilder.ToString(), annotations);
 		}
+
+	    /// <summary>
+	    /// Reads a sequence of decimal digits into an Unicode character.
+	    /// </summary>
+	    /// <param name="reader">The reader to read from.</param>
+	    /// <param name="minLength">The minimum number of digits to read.</param>
+	    /// <param name="maxLength">The maximum number of digits to read.</param>
+	    /// <returns>The Unicode characters that were read.</returns>
+	    private string ReadEscapedDecimalUnicode(TextReader reader, int minLength, int maxLength)
+	    {
+	        return ReadEscapedUnicode(reader, Char.IsDigit, NumberStyles.Integer, minLength, maxLength);
+	    }
+
+	    /// <summary>
+        /// Reads a sequence of hexadecimal digits into an Unicode character.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
+        /// <param name="minLength">The minimum number of digits to read.</param>
+        /// <param name="maxLength">The maximum number of digits to read.</param>
+        /// <returns>The Unicode characters that were read.</returns>
+        private string ReadEscapedHexadecimalUnicode(TextReader reader, int minLength, int maxLength)
+	    {
+	        return ReadEscapedUnicode(reader, Chars.IsHexDigit, NumberStyles.HexNumber, minLength, maxLength);
+	    }
+
+        /// <summary>
+        /// Reads a sequence of digits into an Unicode character.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
+        /// <param name="validator">Character validator function.</param>
+        /// <param name="numberStyle">The number style used to parse.</param>
+        /// <param name="minLength">The minimum number of digits to read.</param>
+        /// <param name="maxLength">The maximum number of digits to read.</param>
+        /// <returns>The Unicode characters that were read.</returns>
+        private string ReadEscapedUnicode(TextReader reader, Func<char, bool> validator, NumberStyles numberStyle, int minLength, int maxLength)
+	    {
+	        #region Contract
+	        Debug.Assert(reader != null);
+	        Debug.Assert(minLength >= 0 && minLength < 8);
+	        Debug.Assert(maxLength > 0 && maxLength <= 8);
+	        #endregion
+
+            var sb = new StringBuilder(maxLength);
+	        for (int i = 0; i < maxLength; i++)
+	        {
+	            char c = reader.PeekOrFail();
+	            if (!validator(c))
+	                break;
+	            sb.Append(c);
+	        }
+            if (sb.Length < minLength)
+                throw new TermParseException($"Expected at least {minLength} digits to form a Unicode character escape sequence, found {sb.Length}.");
+
+	        int result;
+	        if (!Int32.TryParse(sb.ToString(), numberStyle, CultureInfo.InvariantCulture, out result))
+                throw new TermParseException($"Digits don't form a valid Unicode character escape sequence.");
+	        return Char.ConvertFromUtf32(result);
+	    }
 
 		/// <summary>
 		/// Reads a number.
@@ -207,30 +260,24 @@ namespace Yargon.ATerms.IO
 			string frac = String.Empty;
 			string exp = String.Empty;
 
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char)reader.Peek();
-			if (ch == '.')
-			{
-				// TODO: Handle the case where Read() returns -1.
-				reader.Read();
+		    if (reader.TryPeek('.'))
+		    {
+		        reader.ReadExpected('.');
 
-				frac = ReadDigits(reader);
+		        frac = ReadDigits(reader);
 
-				// TODO: Handle the case where Peek() returns -1.
-				ch = (char)reader.Peek();
-				if (ch == 'e' || ch == 'E')
-				{
-					// TODO: Handle the case where Read() returns -1.
-					reader.Read();
+		        if (reader.TryPeek('e', 'E'))
+		        {
+		            reader.ReadExpected('e', 'E');
 
-					exp = ReadDigits(reader);
-				}
-			}
+		            exp = ReadDigits(reader);
+		        }
+		    }
 
-			if (ints == String.Empty && frac == String.Empty)
+		    if (ints == String.Empty && frac == String.Empty)
 				throw new TermParseException("Expected number, got something else.");
 
-			var annotations = this.ReadAnnotations(reader);
+			var annotations = ReadAnnotations(reader);
 
 			if (frac != String.Empty)
 			{
@@ -240,12 +287,12 @@ namespace Yargon.ATerms.IO
 					(!String.IsNullOrWhiteSpace(exp) ? exp : "0"),
 					CultureInfo.InvariantCulture);
 				// TODO: Support doubles instead of floats.
-				return TermFactory.Real((float)value, annotations);
+				return this.TermFactory.Real((float)value, annotations);
 			}
 			else
 			{
 				int value = Int32.Parse(ints, CultureInfo.InvariantCulture);
-				return TermFactory.Int(value);
+				return this.TermFactory.Int(value);
 			}
 		}
 
@@ -262,25 +309,19 @@ namespace Yargon.ATerms.IO
 		{
 			#region Contract
 			Debug.Assert(reader != null);
-			#endregion
+            #endregion
 
-			// TODO: Handle the case where Read() returns -1.
-			char ch = (char)reader.Read();
-			if (ch != '<')
-				throw new TermParseException($"Expected placeholder, got '{ch}' character.");
+		    reader.ReadExpected('<', "placeholder start");
 
-			var template = this.Read(reader);
+			var template = Read(reader);
 
-			this.ReadWhitespace(reader);
+			ReadWhitespace(reader);
 			
-			// TODO: Handle the case where Read() returns -1.
-			ch = (char)reader.Read();
-			if (ch != '>')
-				throw new TermParseException($"Expected placeholder end, got '{ch}' character.");
+		    reader.ReadExpected('>', "placeholder end");
 
-			var annotations = this.ReadAnnotations(reader);
+			var annotations = ReadAnnotations(reader);
 
-			return TermFactory.Placeholder(template, annotations);
+			return this.TermFactory.Placeholder(template, annotations);
 		}
 
 		/// <summary>
@@ -298,27 +339,25 @@ namespace Yargon.ATerms.IO
 			Debug.Assert(reader != null);
 			#endregion
 
-			string name = this.ReadIdentifier(reader);
+			string name = ReadIdentifier(reader);
 
-			this.ReadWhitespace(reader);
-
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char) reader.Peek();
+			ReadWhitespace(reader);
+            
+			char ch = reader.PeekOrFail();
 			IReadOnlyList<ITerm> terms;
 			if (ch == '(')
 			{
-				// TODO: Handle the case where Read() returns -1.
-				reader.Read();
-				terms = this.ReadTermSequence(reader, ',', ')');
+				reader.ReadExpected('(');
+				terms = ReadTermSequence(reader, ',', ')');
 			}
 			else
 			{
 				terms = TermFactory.EmptyTermList;
 			}
 
-			var annotations = this.ReadAnnotations(reader);
+			var annotations = ReadAnnotations(reader);
 
-			return TermFactory.Cons(name, terms, annotations);
+			return this.TermFactory.Cons(name, terms, annotations);
 		}
 
 		/// <summary>
@@ -331,15 +370,12 @@ namespace Yargon.ATerms.IO
 			#region Contract
 			Debug.Assert(reader != null);
 			#endregion
-
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char) reader.Peek();
-			if (ch != '{')
+            
+            if (!reader.TryPeek('{'))
 				// No annotations to read.
 				return TermFactory.EmptyTermList;
-
-			// TODO: Handle the case where Read() returns -1.
-			reader.Read();
+            
+			reader.ReadExpected('{');
 
 			return ReadTermSequence(reader, ',', '}');
 		}
@@ -360,25 +396,17 @@ namespace Yargon.ATerms.IO
 			#endregion
 
 			StringBuilder stringBuilder = new StringBuilder();
-
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char)reader.Peek();
+            
+			char ch = reader.PeekOrFail();
 			if (ATermReader.IsValidIdentifierFirstChar(ch))
 			{
-				// TODO: Handle the case where Read() returns -1.
-				ch = (char) reader.Read();
+				ch = reader.ReadOrFail();
 				stringBuilder.Append(ch);
 
-				// TODO: Handle the case where Peek() returns -1.
-				ch = (char) reader.Peek();
-				while (ATermReader.IsValidIdentifierChar(ch))
+                while (reader.TryPeek(IsValidIdentifierChar))
 				{
-					// TODO: Handle the case where Read() returns -1.
-					ch = (char) reader.Read();
+					ch = reader.ReadOrFail();
 					stringBuilder.Append(ch);
-
-					// TODO: Handle the case where Peek() returns -1.
-					ch = (char) reader.Peek();
 				}
 			}
 
@@ -401,17 +429,17 @@ namespace Yargon.ATerms.IO
 			#endregion
 
 			StringBuilder stringBuilder = new StringBuilder();
-
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char)reader.Peek();
+            
+			char ch = reader.PeekOrFail();
 			while (Char.IsDigit(ch))
 			{
-				// TODO: Handle the case where Read() returns -1.
-				ch = (char) reader.Read();
+				ch = reader.ReadOrFail();
 				stringBuilder.Append(ch);
-
-				// TODO: Handle the case where Peek() returns -1.
-				ch = (char)reader.Peek();
+                
+				int chi = reader.Peek();
+			    if (chi == -1)
+			        break;
+			    ch = (char) chi;
 			}
 
 			return stringBuilder.ToString();
@@ -469,48 +497,57 @@ namespace Yargon.ATerms.IO
 			Debug.Assert(reader != null);
 			#endregion
 			
-			this.ReadWhitespace(reader);
-
-			// TODO: Handle the case where Peek() returns -1.
-			char ch = (char)reader.Peek();
+			ReadWhitespace(reader);
+            
+			char ch = reader.PeekOrFail();
 			if (ch == end)
 			{
-				// TODO: Handle the case where Read() returns -1.
-				reader.Read();
+				reader.ReadExpected(end);
 				return TermFactory.EmptyTermList;
 			}
 
 			var terms = new List<ITerm>();
 			do
 			{
-				var term = this.Read(reader);
+				var term = Read(reader);
 				terms.Add(term);
 
-				this.ReadWhitespace(reader);
-				// TODO: Handle the case where Peek() returns -1.
-				ch = (char) reader.Read();
+				ReadWhitespace(reader);
+				ch = reader.ReadOrFail();
 			} while (ch == separator);
 
 			if (ch != end)
-				// TODO: Use C# string interpolation.
 				throw new TermParseException($"Term sequence didn't end with '{end}': '{ch}'.");
 
 			return terms;
 		}
 
-		/// <summary>
-		/// Reads whitespace.
-		/// </summary>
-		/// <param name="reader">The reader.</param>
-		private void ReadWhitespace(TextReader reader)
+        /// <summary>
+        /// Reads whitespace.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns><see langword="true"/> when there may be more to read;
+        /// otherwise, <see langword="false"/> when the end of the stream has been reached.</returns>
+        private bool ReadWhitespace(TextReader reader)
 		{
 			#region Contract
 			Debug.Assert(reader != null);
 			#endregion
 
-			// TODO: Handle the case where Peek() returns -1.
-			while (Char.IsWhiteSpace((char) reader.Peek()))
-				reader.Read();
+		    int ch = reader.Peek();
+		    if (ch == -1) return false;
+
+		    while (Char.IsWhiteSpace((char) ch))
+		    {
+		        // Consume the character.
+		        reader.Read();
+
+                // Peek the next character.
+		        ch = reader.Peek();
+		        if (ch == -1) return false;
+		    }
+
+		    return true;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System;
+using JetBrains.Annotations;
 using SCG = System.Collections.Generic;
 
 namespace Yargon.ATerms.IO
@@ -13,11 +14,12 @@ namespace Yargon.ATerms.IO
 		/// Reads a term from a stream.
 		/// </summary>
 		/// <param name="input">The stream to read from.</param>
-		/// <returns>A term; or <see langword="null"/>
+		/// <returns>The read term; or <see langword="null"/>
 		/// when there are no more terms to read.</returns>
 		/// <remarks>
 		/// The stream is not closed by this method.
 		/// </remarks>
+		[CanBeNull]
 		ITerm Read(Stream input);
 	}
 

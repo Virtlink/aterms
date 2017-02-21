@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Text;
+using Virtlink.Utilib.IO;
 
 namespace Yargon.ATerms.IO
 {
@@ -68,7 +68,7 @@ namespace Yargon.ATerms.IO
                 throw new ArgumentNullException(nameof(output));
             #endregion
 
-            using (var writer = new StreamWriter(output, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096, true))
+            using (var writer = output.WriteText())
 			{
 				Write(term, writer);
 			}
@@ -105,7 +105,7 @@ namespace Yargon.ATerms.IO
 			else if (term is IPlaceholderTerm)
 				this.WritePlaceholderTerm((IPlaceholderTerm)term, writer);
 			else
-				throw new NotImplementedException();
+				throw new NotSupportedException();
 		}
 
 		/// <summary>
@@ -172,11 +172,11 @@ namespace Yargon.ATerms.IO
 				if (!enumerator.MoveNext())
 					return;
 
-				this.Write(enumerator.Current, writer);
+				Write(enumerator.Current, writer);
 				while (enumerator.MoveNext())
 				{
 					writer.Write(separator);
-					this.Write(enumerator.Current, writer);
+					Write(enumerator.Current, writer);
 				}
 			}
 		}
