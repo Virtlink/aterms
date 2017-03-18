@@ -23,8 +23,9 @@ namespace Yargon.ATerms
                 throw new ArgumentNullException(nameof(term));
             #endregion
 
-            var result = TermExtensions.AsInt32(term);
-			if (result == null) throw new InvalidCastException($"Can't cast term {term} to Int32.");
+            var result = term.AsInt32();
+			if (result == null)
+                throw new InvalidCastException($"Can't cast term {term} to Int32.");
 			return (Int32)result;
 		}
 
@@ -79,8 +80,9 @@ namespace Yargon.ATerms
                 throw new ArgumentNullException(nameof(term));
             #endregion
 
-            var result = TermExtensions.AsSingle(term);
-			if (result == null) throw new InvalidCastException($"Can't cast term {term} to Single.");
+            var result = term.AsSingle();
+			if (result == null)
+                throw new InvalidCastException($"Can't cast term {term} to Single.");
 			return (Single)result;
 		}
 
@@ -136,8 +138,9 @@ namespace Yargon.ATerms
                 throw new ArgumentNullException(nameof(term));
             #endregion
 
-            var result = TermExtensions.AsString(term);
-			if (result == null) throw new InvalidCastException($"Can't cast term {term} to String.");
+            var result = term.AsString();
+			if (result == null)
+                throw new InvalidCastException($"Can't cast term {term} to String.");
 			return result;
 		}
 
@@ -199,8 +202,9 @@ namespace Yargon.ATerms
                 throw new ArgumentOutOfRangeException(nameof(arity));
             #endregion
 
-			var result = TermExtensions.AsCons(term, name, arity);
-			if (result == null) throw new InvalidCastException($"Can't cast term {term} to {name}`{arity}.");
+			var result = term.AsCons(name, arity);
+			if (result == null)
+                throw new InvalidCastException($"Can't cast term {term} to {name}`{arity}.");
 			return result;
 		}
 

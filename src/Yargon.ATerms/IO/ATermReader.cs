@@ -19,7 +19,7 @@ namespace Yargon.ATerms.IO
 		/// Initializes a new instance of the <see cref="ATermReader"/> class.
 		/// </summary>
 		/// <param name="termFactory">The term factory to use.</param>
-		internal ATermReader(TermFactory termFactory)
+		internal ATermReader(ITermFactory termFactory)
 			: this(termFactory, TermTextReader.DefaultCulture)
         {
             // Nothing to do.
@@ -30,7 +30,7 @@ namespace Yargon.ATerms.IO
         /// </summary>
         /// <param name="termFactory">The term factory to use.</param>
         /// <param name="culture">The culture of the reader.</param>
-        internal ATermReader(TermFactory termFactory, CultureInfo culture)
+        internal ATermReader(ITermFactory termFactory, CultureInfo culture)
 			: base(termFactory, culture)
         {
             #region Contract
@@ -352,7 +352,7 @@ namespace Yargon.ATerms.IO
 			}
 			else
 			{
-				terms = TermFactory.EmptyTermList;
+				terms = Terms.Empty;
 			}
 
 			var annotations = ReadAnnotations(reader);
@@ -373,7 +373,7 @@ namespace Yargon.ATerms.IO
             
             if (!reader.TryPeek('{'))
 				// No annotations to read.
-				return TermFactory.EmptyTermList;
+				return Terms.Empty;
             
 			reader.ReadExpected('{');
 
@@ -503,7 +503,7 @@ namespace Yargon.ATerms.IO
 			if (ch == end)
 			{
 				reader.ReadExpected(end);
-				return TermFactory.EmptyTermList;
+				return Terms.Empty;
 			}
 
 			var terms = new List<ITerm>();

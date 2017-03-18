@@ -27,8 +27,8 @@ namespace Yargon.ATerms.IO
 		/// <summary>
 		/// Gets the current term factory of the reader.
 		/// </summary>
-		/// <value>THe current term factory.</value>
-		protected TermFactory TermFactory { get; }
+		/// <value>The current term factory.</value>
+		protected ITermFactory TermFactory { get; }
 
 		#region Constructors
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Yargon.ATerms.IO
 		/// </summary>
 		/// <param name="termFactory">The term factory to use.</param>
 		/// <param name="culture">The culture of the reader.</param>
-		protected TermTextReader(TermFactory termFactory, CultureInfo culture)
+		protected TermTextReader(ITermFactory termFactory, CultureInfo culture)
         {
             #region Contract
             if (termFactory == null)

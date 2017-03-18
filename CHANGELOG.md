@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.3.0] - 2017-03-18
+- Add `ITermFactory` interface.
+- Rename `TermFactory` to `AbstractTermFactory`.
+- Rename `TermFactory.IsBuiltByThisFactory()` to `ITermFactory.Owns()`.
+- Move `TermFactory.EmptyTermList` to `Terms.Empty`.
+- Make `StringEscaper` class internal.
+
 ## [1.2.0] - 2017-02-21
 - Add `ITermVisitor.VisitTerm()` method that is called when none other applies.
 - Add `ITermVisitor<TResult>` that returns a result.

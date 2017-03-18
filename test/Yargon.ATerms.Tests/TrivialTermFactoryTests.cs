@@ -15,7 +15,7 @@ namespace Yargon.ATerms.Tests
         
 		public sealed class TrivialTermFactory_TermFactory : TermFactoryTests
 		{
-			public override TermFactory CreateSUT()
+			public override ITermFactory CreateSUT()
 			{
 				return new TrivialTermFactoryTests().CreateSUT();
 			}

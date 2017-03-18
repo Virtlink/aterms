@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Yargon.ATerms
 {
 	/// <summary>
-	/// An application of a constructor.
+	/// A constructor application term.
 	/// </summary>
 	public interface IConsTerm : ITerm
 	{

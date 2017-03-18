@@ -10,7 +10,7 @@ namespace Yargon.ATerms
 		/// Creates the Subject Under Test.
 		/// </summary>
 		/// <returns>The instance to test.</returns>
-		public abstract TermFactory CreateSUT();
+		public abstract ITermFactory CreateSUT();
 
 		[Fact]
 		public void CanBuildIntTerm()
@@ -25,7 +25,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -42,7 +42,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -58,7 +58,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -75,7 +75,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -91,7 +91,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -108,7 +108,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(value, result.Value);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -129,7 +129,7 @@ namespace Yargon.ATerms
 			Assert.Equal(3, result.Count);
 			Assert.False(result.IsEmpty);
 			Assert.Equal(elem0, result.Head);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -151,7 +151,7 @@ namespace Yargon.ATerms
 			Assert.Equal(3, result.Count);
 			Assert.False(result.IsEmpty);
 			Assert.Equal(elem0, result.Head);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -169,7 +169,7 @@ namespace Yargon.ATerms
 			Assert.True(result.IsEmpty);
 			Assert.Null(result.Head);
 			Assert.Null(result.Tail);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -180,7 +180,7 @@ namespace Yargon.ATerms
 			var annos = BuildAnnos(sut);
 
 			// Act
-			var result = sut.List(TermFactory.EmptyTermList, annos);
+			var result = sut.List(Terms.Empty, annos);
 
 			// Assert
 			Assert.Equal(annos, result.Annotations);
@@ -188,7 +188,7 @@ namespace Yargon.ATerms
 			Assert.True(result.IsEmpty);
 			Assert.Null(result.Head);
 			Assert.Null(result.Tail);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -206,7 +206,7 @@ namespace Yargon.ATerms
 			Assert.Equal(consName, result.Name);
 			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -225,7 +225,7 @@ namespace Yargon.ATerms
 			Assert.Equal(consName, result.Name);
 			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -242,7 +242,7 @@ namespace Yargon.ATerms
 			Assert.Equal(String.Empty, result.Name);
 			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -260,7 +260,7 @@ namespace Yargon.ATerms
 			Assert.Equal(String.Empty, result.Name);
 			Assert.Equal(new ITerm[] { arg0 }, result.SubTerms);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -276,7 +276,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(new ITerm[] { template }, result.SubTerms);
 			Assert.Empty(result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		[Fact]
@@ -293,7 +293,7 @@ namespace Yargon.ATerms
 			// Assert
 			Assert.Equal(new ITerm[] { template }, result.SubTerms);
 			Assert.Equal(annos, result.Annotations);
-			Assert.True(sut.IsBuiltByThisFactory(result));
+			Assert.True(sut.Owns(result));
 		}
 
 		/// <summary>
@@ -301,7 +301,7 @@ namespace Yargon.ATerms
 		/// </summary>
 		/// <param name="sut">The Subject Under Test.</param>
 		/// <returns>The collection of annotations.</returns>
-		private IReadOnlyCollection<ITerm> BuildAnnos(TermFactory sut)
+		private IReadOnlyCollection<ITerm> BuildAnnos(ITermFactory sut)
 		{
 			var annos = new ITerm[]
 			{

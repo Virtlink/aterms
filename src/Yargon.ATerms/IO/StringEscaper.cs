@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Yargon.ATerms.IO
 {
-    public static class StringEscaper
+    internal static class StringEscaper
     {
         /// <summary>
         /// Escapes the specified string.
@@ -33,25 +33,6 @@ namespace Yargon.ATerms.IO
                     sb.Append(ch);
             }
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// Unescapes the specified string.
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="sequences"></param>
-        /// <returns></returns>
-        public static string Unescape(string input, IReadOnlyDictionary<string, char> sequences)
-        {
-            #region Contract
-            if (input == null)
-                throw new ArgumentNullException(nameof(input));
-            if (sequences == null)
-                throw new ArgumentNullException(nameof(sequences));
-            #endregion
-
-            // TODO: Implement
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,20 +1,24 @@
 version: "#{build}"
-os: Visual Studio 2015
+image: Visual Studio 2017
 configuration: Release
 
 before_build:
 - ps: dotnet --info
 - ps: dotnet restore --verbosity detailed
 
+build:
+  verbosity: minimal
+
 test_script:
-- ps: dotnet test -c $env:CONFIGURATION ./test/Yargon.ATerms.Tests
+- ps: dotnet test -c $env:CONFIGURATION ./test/Yargon.ATerms.Tests/Yargon.ATerms.Tests.csproj
 
 after_test:
-- ps: dotnet pack -c $env:CONFIGURATION src/Yargon.ATerms/
+- ps: dotnet pack -c $env:CONFIGURATION ./src/Yargon.ATerms/Yargon.ATerms.csproj
 
 artifacts:
 - path: 'src/Yargon.ATerms/bin/Release/*.nupkg'
   name: NuGet Packages
+
 
 deploy:
 - provider: GitHub

@@ -7,10 +7,10 @@ namespace Yargon.ATerms
 	/// The trivial term factory has a trivial implementation for the terms
 	/// and the factory that doesn't do any optimizations such as term sharing.
 	/// </summary>
-	public sealed partial class TrivialTermFactory : TermFactory
+	public sealed partial class TrivialTermFactory : AbstractTermFactory
 	{
 		/// <inheritdoc />
-		public override bool IsBuiltByThisFactory(ITerm term)
+		public override bool Owns(ITerm term)
 		{
             #region Contract
             if (term == null)

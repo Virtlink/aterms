@@ -13,15 +13,12 @@ namespace Yargon.ATerms
 		internal abstract class Term : ITerm
 		{
 			/// <inheritdoc />
-			public virtual IReadOnlyList<ITerm> SubTerms { get; } = TermFactory.EmptyTermList;
+			public virtual IReadOnlyList<ITerm> SubTerms { get; } = Terms.Empty;
 
 			/// <inheritdoc />
-			public ITerm this[int index]
-			{
-				get { return this.SubTerms[index]; }
-			}
-			
-			/// <inheritdoc />
+			public ITerm this[int index] => this.SubTerms[index];
+
+		    /// <inheritdoc />
 			public IReadOnlyCollection<ITerm> Annotations { get; }
 
 			#region Constructors

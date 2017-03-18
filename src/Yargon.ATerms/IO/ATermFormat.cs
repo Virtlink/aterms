@@ -34,7 +34,7 @@ namespace Yargon.ATerms.IO
 		/// </summary>
 		/// <param name="termFactory">The term factory to use.</param>
 		/// <returns>The created <see cref="ATermReader"/>.</returns>
-		public ATermReader CreateReader(TermFactory termFactory)
+		public ATermReader CreateReader(ITermFactory termFactory)
 		{
 			#region Contract
 			if (termFactory == null)
@@ -54,7 +54,7 @@ namespace Yargon.ATerms.IO
 		}
 
 		/// <inheritdoc />
-		ITermReader ITermFormat.CreateReader(TermFactory termFactory) => this.CreateReader(termFactory);
+		ITermReader ITermFormat.CreateReader(ITermFactory termFactory) => this.CreateReader(termFactory);
 
 		/// <inheritdoc />
 		ITermWriter ITermFormat.CreateWriter() => this.CreateWriter();

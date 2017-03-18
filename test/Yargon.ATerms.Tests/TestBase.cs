@@ -12,7 +12,7 @@ namespace Yargon.ATerms
 	    /// Gets a term factory to use.
 	    /// </summary>
 	    /// <value>A term factory.</value>
-	    protected TermFactory Factory { get; } = new TrivialTermFactory();
+	    protected ITermFactory Factory { get; } = new TrivialTermFactory();
 
 	    /// <summary>
         /// Returns a <see cref="MemoryStream"/> with the specified string encoded in it.

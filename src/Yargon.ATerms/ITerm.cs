@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 namespace Yargon.ATerms
 {
-	// TODO: Make terms serializable.
-
 	/// <summary>
 	/// An immutable term.
 	/// </summary>

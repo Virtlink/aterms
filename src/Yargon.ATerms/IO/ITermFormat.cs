@@ -29,7 +29,7 @@ namespace Yargon.ATerms.IO
 		/// <exception cref="InvalidOperationException">
 		/// There is no reader for this format.
 		/// </exception>
-		ITermReader CreateReader(TermFactory termFactory);
+		ITermReader CreateReader(ITermFactory termFactory);
 		
 		/// <summary>
 		/// Creates a writer for this format.
